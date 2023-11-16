@@ -3,6 +3,7 @@ import csv
 import statistics
 
 csvpath = os.path.join("Resources", "budget_data.csv")
+outputpath = os.path.join("analysis", "analysis.txt")
 
 monthTotal = 0
 profitTotal  = 0
@@ -59,11 +60,20 @@ with open(csvpath) as csvfile:
             # Sets the lastMonth value for the next loop
             lastMonth = int(row[1])
 
-    print(f"Total Months: {monthTotal}")
-    print(f"Total Profit: ${profitTotal}")
-    print(f"Average Change: ${averageChange}")
-    print(f"Greatest Increase in Profits: {greatestIncMonth} (${greatestInc})")
-    print(f"Greatest Decrease in Profits: {greatestDecMonth} (${greatestDec})")
+    analysis = [f"Total Months: {monthTotal}",
+        f"Total Profit: ${profitTotal}", 
+        f"Average Change: ${averageChange}", 
+        f"Greatest Increase in Profits: {greatestIncMonth} (${greatestInc})", 
+        f"Greatest Decrease in Profits: {greatestDecMonth} (${greatestDec})"]
+    
+    # Adds line breaks
+    joinAnalysis = '\n'.join(analysis)
+
+    print(joinAnalysis)
+
+# Export to new file
+with open(outputpath, "w") as f:
+    f.write(joinAnalysis)
           
 
 
