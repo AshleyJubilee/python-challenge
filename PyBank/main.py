@@ -18,14 +18,12 @@ greatestDec = 0
 greatestDecMonth = ''
 diff = 0
 
+# Open csv and store header
 with open(csvpath) as csvfile:
 
     csvreader = csv.reader(csvfile, delimiter= ',')
+    csvheader = next(csvreader)
 
-    # Stores and skips header
-    csvHeader = next(csvreader)
-
-    # Loops through each row and updates vairables
     for row in csvreader:
 
         # Counts total monthts and total profits
@@ -38,28 +36,26 @@ with open(csvpath) as csvfile:
         if lastMonth == 0: 
             lastMonth = int(row[1])
             continue
-        else:
 
-            # Updates current difference and adds it to the list
-            diff = -(lastMonth - currentMonth)
+        # List all single month differents and calculates the mean
+        diff = -(lastMonth - currentMonth)
+        changeList.append(diff)
 
-            changeList.append(diff)
+        averageChange = round(statistics.mean(changeList),2)
 
-            # Finds the mean of all month to month differences
-            averageChange = round(statistics.mean(changeList),2)
-
-            # Updates greatest change variables
-            if diff > greatestInc:
-                greatestInc = diff
-                greatestIncMonth = row[0]
+        # Updates greatest change variables
+        if diff > greatestInc:
+            greatestInc = diff
+            greatestIncMonth = row[0]
         
-            if diff < greatestDec:
-                greatestDec = diff
-                greatestDecMonth = row[0]
+        if diff < greatestDec:
+            greatestDec = diff
+            greatestDecMonth = row[0]
 
-            # Sets the lastMonth value for the next loop
-            lastMonth = int(row[1])
+        # Sets the lastMonth value for the next loop
+        lastMonth = int(row[1])
 
+    # Stores text with final analysis data
     analysis = [f"Total Months: {monthTotal}",
         f"Total Profit: ${profitTotal}", 
         f"Average Change: ${averageChange}", 
